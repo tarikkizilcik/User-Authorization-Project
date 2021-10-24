@@ -4,9 +4,10 @@ import { AuthService } from '../../auth/auth.service';
 import { User } from '../../models/user.model';
 import { Role } from '../../models/role.model';
 
-const permittedRoles = [Role.User];
-
-const isPermittedUser = (user: User) => permittedRoles.includes(user.role);
+const permittedRoles = new Map([
+  [Role.SuperAdmin, new Set([Role.SuperAdmin, Role.Admin, Role.User])],
+  [Role.Admin, new Set([Role.User])],
+]);
 
 @Component({
   selector: 'app-users',
@@ -27,17 +28,24 @@ export class UsersComponent {
 
   private users!: User[];
 
+  private readonly isPermittedUser: (user: User) => boolean;
+
   constructor(private auth: AuthService) {
     this.loadUsers();
 
-    const user = auth.getUser();
+    const user = auth.getUser()!;
 
-    const isSuperAdmin = user?.role === Role.SuperAdmin;
+    const isSuperAdmin = user.role === Role.SuperAdmin;
     this.isActionsVisible = isSuperAdmin;
+
+    this.isPermittedUser = (u: User) => {
+      const roles = permittedRoles.get(user.role)!;
+      return roles.has(u.role);
+    };
 
     this.tableUsers = isSuperAdmin
       ? [...this.users]
-      : this.users.filter(isPermittedUser);
+      : this.users.filter(this.isPermittedUser);
   }
 
   onClickCreateUser() {
@@ -81,7 +89,7 @@ export class UsersComponent {
     this.users.push(user);
     this.saveUsers();
 
-    if (isPermittedUser(user)) {
+    if (this.isPermittedUser(user)) {
       this.tableUsers.push(user);
     }
   }
