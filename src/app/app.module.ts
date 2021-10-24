@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { UsersComponent } from './pages/users/users.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { UsersComponent } from './pages/users/users.component';
     LoginComponent,
     PageNotFoundComponent,
     UsersComponent,
+    HeaderComponent,
   ],
   imports: [
     HttpClientModule,

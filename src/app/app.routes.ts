@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { RoleGuardService } from './auth/role-guard.service';
 import { UsersComponent } from './pages/users/users.component';
+import { LoginGuardService } from './auth/login-guard.service';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,6 +26,7 @@ export const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [LoginGuardService],
   },
   {
     path: '**',
