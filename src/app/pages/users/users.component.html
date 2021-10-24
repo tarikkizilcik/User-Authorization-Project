@@ -1,0 +1,45 @@
+<p>users works!</p>
+
+<!--Admin actions section-->
+<section *ngIf="isActionsVisible">
+  <ul>
+    <li>
+      <button (click)="onClickCreateUser()">Create a new user</button>
+    </li>
+  </ul>
+
+  <form (ngSubmit)="onSubmitCreateUserForm()" *ngIf="isCreateFormVisible" [formGroup]="createUserForm">
+    <label for="username">Username</label>
+    <input formControlName="username" id="username" type="text">
+
+    <label for="role">Role</label>
+    <input formControlName="role" id="role" type="text">
+
+    <button type="submit"></button>
+  </form>
+</section>
+
+<!--Users table-->
+<table>
+  <tr>
+    <th>Username</th>
+    <th>Role</th>
+    <th *ngIf="isActionsVisible">Actions</th>
+  </tr>
+
+  <tr *ngFor="let user of tableUsers">
+    <th>{{user.username}}</th>
+    <th>{{user.role}}</th>
+    <!--Admin actions-->
+    <th *ngIf="isActionsVisible">
+      <ul>
+        <li>
+          <button>Edit</button>
+        </li>
+        <li>
+          <button (click)="deleteUser(user.username)">Delete</button>
+        </li>
+      </ul>
+    </th>
+  </tr>
+</table>
