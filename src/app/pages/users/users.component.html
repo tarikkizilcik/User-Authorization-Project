@@ -1,47 +1,95 @@
-<!--Admin actions section-->
-<section *ngIf="isActionsVisible">
-  <ul>
-    <li>
-      <button (click)="onClickCreateUser()" class="btn btn-primary">Create a new user</button>
-    </li>
-  </ul>
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="text-center">
+          <h1>User List</h1>
+        </div>
+      </div>
+      <div class="card-body">
+        <div *ngIf="isActionsVisible">
+          <button (click)="onClickCreateUser()" class="btn btn-success mb-4">
+            Create a new user
+          </button>
+          <form
+            (ngSubmit)="onSubmitCreateUserForm()"
+            *ngIf="isCreateFormVisible"
+            [formGroup]="createUserForm"
+          >
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <label for="username" class="form-label">Username</label>
+                <input
+                  formControlName="username"
+                  id="username"
+                  type="text"
+                  class="form-control mr-2"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Role</label>
+                <div ngbDropdown>
+                  <button
+                    class="btn btn-outline-primary"
+                    id="dropdownBasic1"
+                    ngbDropdownToggle
+                    type="button"
+                  >
+                    {{ getRoleName(selectedRole) }}
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button
+                      *ngFor="let role of permittedRoles"
+                      type="button"
+                      ngbDropdownItem
+                      (click)="onClickRole(role)"
+                    >
+                      {{getRoleName(role)}}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mt-3">
+                <button class="btn btn-success" type="submit">Create</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th *ngIf="isActionsVisible">
+              <div class="text-center">Actions</div>
+            </th>
+          </tr>
+          </thead>
 
-  <form (ngSubmit)="onSubmitCreateUserForm()" *ngIf="isCreateFormVisible" [formGroup]="createUserForm">
-    <label for="username">Username</label>
-    <input formControlName="username" id="username" type="text">
-
-    <label for="role">Role</label>
-    <input formControlName="role" id="role" type="text">
-
-    <button type="submit"></button>
-  </form>
-</section>
+          <tbody>
+          <tr *ngFor="let user of tableUsers">
+            <th>{{ user.username }}</th>
+            <th>{{ user.role }}</th>
+            <!--Admin actions-->
+            <th *ngIf="isActionsVisible">
+              <div class="text-center d-flex justify-content-center">
+                <button class="btn btn-primary mr-1" (click)="editUser()">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-danger"
+                  (click)="deleteUser(user.username)"
+                >
+                  <i class="fa fa-close"></i>
+                </button>
+              </div>
+            </th>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--Users table-->
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>Username</th>
-    <th>Role</th>
-    <th *ngIf="isActionsVisible">Actions</th>
-  </tr>
-  </thead>
-
-  <tbody>
-  <tr *ngFor="let user of tableUsers">
-    <th>{{user.username}}</th>
-    <th>{{user.role}}</th>
-    <!--Admin actions-->
-    <th *ngIf="isActionsVisible">
-      <ul>
-        <li>
-          <button>Edit</button>
-        </li>
-        <li>
-          <button (click)="deleteUser(user.username)">Delete</button>
-        </li>
-      </ul>
-    </th>
-  </tr>
-  </tbody>
-</table>

@@ -2,7 +2,7 @@
   <nav class="nav">
     <h3>{{(user$ | async)?.username}}</h3>
 
-    <button (click)="onLogout()" *ngIf="(user$ | async)">Logout</button>
-    <button (click)="onLogin()" *ngIf="!isLoginHidden && !(user$ | async)">Login</button>
+    <button class="btn btn-danger" (click)="onLogout()" *ngIf="(user$ | async)">Logout</button>
+    <button class="btn btn-success" (click)="onLogin()" *ngIf="!isLoginHidden && !(user$ | async)">Login</button>
   </nav>
 </header>

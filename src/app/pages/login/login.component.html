@@ -1,6 +1,28 @@
-<form (ngSubmit)="onSubmitLogin()" [formGroup]="loginForm">
-  <label for="username">Username</label>
-  <input formControlName="username" id="username" type="text">
-
-  <button type="submit">Login</button>
-</form>
+<div class="row justify-content-center mt-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <div class="text-center">
+          <h1>Login</h1>
+        </div>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="onSubmitLogin()" [formGroup]="loginForm">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              class="form-control"
+              formControlName="username"
+              id="username"
+              name="userame"
+              type="text"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary float-right">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

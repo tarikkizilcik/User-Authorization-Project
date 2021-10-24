@@ -26,35 +26,52 @@ export class UsersComponent {
 
   isCreateFormVisible: boolean = false;
 
+  selectedRole: Role = Role.User;
+
+  permittedRoles: Role[];
+
+  readonly roles: Role[];
+
   private users!: User[];
 
   private readonly isPermittedUser: (user: User) => boolean;
 
+  getRoleName = (role: string): string =>
+    Object.entries(Role).find(([, val]) => val === role)![0];
+
   constructor(private auth: AuthService) {
     this.loadUsers();
 
+    this.roles = Object.values(Role);
+
     const user = auth.getUser()!;
 
-    const isSuperAdmin = user.role === Role.SuperAdmin;
-    this.isActionsVisible = isSuperAdmin;
+    this.isActionsVisible = [Role.SuperAdmin, Role.Admin].includes(user.role);
 
     this.isPermittedUser = (u: User) => {
       const roles = permittedRoles.get(user.role)!;
       return roles.has(u.role);
     };
 
-    this.tableUsers = isSuperAdmin
-      ? [...this.users]
-      : this.users.filter(this.isPermittedUser);
+    this.permittedRoles = [...permittedRoles.get(user.role)!];
+
+    this.tableUsers =
+      user.role === Role.SuperAdmin
+        ? [...this.users]
+        : this.users.filter(this.isPermittedUser);
   }
 
   onClickCreateUser() {
     this.isCreateFormVisible = true;
   }
 
+  onClickRole(value: string) {
+    this.selectedRole = Object.values(Role).find((role) => role === value)!;
+  }
+
   onSubmitCreateUserForm() {
-    const { username, role } = this.createUserForm.value;
-    const user = { username, role };
+    const { username } = this.createUserForm.value;
+    const user = { username, role: this.selectedRole as Role };
     this.saveUser(user);
   }
 
@@ -72,6 +89,8 @@ export class UsersComponent {
     removeItem(this.users);
     this.saveUsers();
   }
+
+  editUser() {}
 
   private loadUsers() {
     const loadedUsers = localStorage.getItem('users');
