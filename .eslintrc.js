@@ -14,6 +14,8 @@ const defaultConfig = {
   rules: {
     'prettier/prettier': 'error',
     'import/prefer-default-export': 'off',
+    // It conflicts with Prettier
+    'operator-linebreak': 'off',
   },
 };
 
