@@ -28,7 +28,7 @@ export class UsersComponent {
 
   selectedRole: Role = Role.User;
 
-  permittedRoles: Role[];
+  creatableRoles: Role[];
 
   readonly roles: Role[];
 
@@ -53,7 +53,9 @@ export class UsersComponent {
       return roles.has(u.role);
     };
 
-    this.permittedRoles = [...permittedRoles.get(user.role)!];
+    this.creatableRoles = [...permittedRoles.get(user.role)!].filter(
+      (r) => r !== Role.SuperAdmin,
+    );
 
     this.tableUsers =
       user.role === Role.SuperAdmin
@@ -90,7 +92,9 @@ export class UsersComponent {
     this.saveUsers();
   }
 
-  editUser() {}
+  editUser() {
+    // TODO
+  }
 
   private loadUsers() {
     const loadedUsers = localStorage.getItem('users');
