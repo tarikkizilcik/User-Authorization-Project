@@ -1,27 +1,31 @@
-# AngularAuth
+Super admin username is `root` 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.11.
+There is only one super admin in the system, and it presets initially.
 
-## Development server
+##Description
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+`JWT` is used for authorization in the project, created users are saved in localStorage.
+There are 3 roles in the project. These are user, admin and super-admin.
+`Authorization` processes are implemented according to these role models, and according to these models,
+transitions to the relevant pages are provided.
 
-## Code scaffolding
+_Project start date: 12:00 Oct 23, 2021_
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+_Project end date: 21:30 Oct 24, 2021_
 
-## Build
+#Photos
+##Home Page
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+![HomePage](screenshots/home-page.png)
 
-## Running unit tests
+##Login
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+![Login](screenshots/login.png)
 
-## Running end-to-end tests
+##User Create
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+![UsersCreate](screenshots/users-create.png)
 
-## Further help
+##User List
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![UsersList](screenshots/users-list.png)
