@@ -1,10 +1,8 @@
-<p>users works!</p>
-
 <!--Admin actions section-->
 <section *ngIf="isActionsVisible">
   <ul>
     <li>
-      <button (click)="onClickCreateUser()">Create a new user</button>
+      <button (click)="onClickCreateUser()" class="btn btn-primary">Create a new user</button>
     </li>
   </ul>
 
@@ -20,13 +18,16 @@
 </section>
 
 <!--Users table-->
-<table>
+<table class="table table-striped">
+  <thead>
   <tr>
     <th>Username</th>
     <th>Role</th>
     <th *ngIf="isActionsVisible">Actions</th>
   </tr>
+  </thead>
 
+  <tbody>
   <tr *ngFor="let user of tableUsers">
     <th>{{user.username}}</th>
     <th>{{user.role}}</th>
@@ -42,4 +43,5 @@
       </ul>
     </th>
   </tr>
+  </tbody>
 </table>
