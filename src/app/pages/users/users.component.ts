@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
+import { User } from '../../models/user.model';
+import { Role } from '../../models/role.model';
 
-type User = {
-  username: string;
-  role: string;
-};
-
-const permittedRoles = ['user'];
+const permittedRoles = [Role.User];
 
 const isPermittedUser = (user: User) => permittedRoles.includes(user.role);
 
@@ -35,7 +32,7 @@ export class UsersComponent {
 
     const user = auth.getUser();
 
-    const isSuperAdmin = user?.role === 'super-admin';
+    const isSuperAdmin = user?.role === Role.SuperAdmin;
     this.isActionsVisible = isSuperAdmin;
 
     this.tableUsers = isSuperAdmin

@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from './auth.service';
-
-type User = {
-  role: string;
-};
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',

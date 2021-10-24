@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import jwtDecode from 'jwt-decode';
-
-export type User = {
-  username: string;
-  role: string;
-};
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
