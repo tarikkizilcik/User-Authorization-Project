@@ -15,11 +15,13 @@ export class LoginComponent {
 
   constructor(private auth: AuthService, private router: Router) {}
 
-  onSubmitLogin() {
+  async onSubmitLogin() {
     const { username } = this.loginForm.value;
 
-    this.auth.login(username);
+    const isLoggedIn = await this.auth.login(username);
 
-    this.router.navigate(['/']).catch(console.error);
+    if (isLoggedIn) {
+      this.router.navigate(['/']).catch(console.error);
+    }
   }
 }

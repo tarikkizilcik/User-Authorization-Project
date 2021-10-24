@@ -4,6 +4,11 @@ import jwtDecode from 'jwt-decode';
 import { Observable, ReplaySubject } from 'rxjs';
 import { User } from '../models/user.model';
 
+declare let require: any;
+
+const sign = require('jwt-encode');
+
+const jwtKey = 'qwertyuiopasdfghjklzxcvbnm123456';
 const dummyToken =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MzUwNzIxNjgsImV4cCI6MTY2NjYwODE5MCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoiU3VwZXIgQWRtaW4iLCJyb2xlIjoic3VwZXItYWRtaW4ifQ.CHbD7tx5TlT3PM59fRyHZH4m-GpmEHccHie4yr36Pd8';
 const superAdminUsername = 'root';
@@ -38,30 +43,31 @@ export class AuthService {
     return this.user;
   }
 
-  login(username: string): boolean {
+  login(username: string): Promise<boolean> {
     let user: User;
 
     if (username === superAdminUsername) {
       user = decodeToken(dummyToken);
     } else {
       const usersItem = localStorage.getItem('users');
-      if (usersItem == null) return false;
+      if (usersItem == null) return Promise.resolve(false);
 
       const users = JSON.parse(usersItem) as User[];
       const foundUser = users.find(({ username: uname }) => uname === username);
 
-      if (foundUser == null) return false;
+      if (foundUser == null) return Promise.resolve(false);
 
       user = foundUser;
     }
 
     // TODO Get the real JWT
-    localStorage.setItem('token', dummyToken);
+    const token = sign(user, jwtKey);
+    localStorage.setItem('token', token);
 
     this.user = user;
     this.userSubject.next(user);
 
-    return true;
+    return Promise.resolve(true);
   }
 
   logout(): boolean {
